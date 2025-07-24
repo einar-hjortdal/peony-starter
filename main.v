@@ -1,18 +1,21 @@
 module main
 
-import einar_hjortdal.peony
 import os
+import einar_hjortdal.dotenv
+import einar_hjortdal.peony
 
 const env_blobly_url = 'BLOBLY_URL'
-const env_blobly_secret_key = 'BLOBLY_SECRET_KEYS'
-const env_blobly_access_key = 'BLOBLY_ACCESS_KEYS'
+const env_blobly_keys = 'BLOBLY_KEYS'
 
 fn main() {
-	blobly_url := os.getenv(env_blobly_url)
-	blobly_secret_keys := os.getenv(env_blobly_secret_key).split(',')
-	blobly_access_keys := os.getenv(env_blobly_access_key).split(',')
+	dotenv.load()
 
-	bp := peony.new_provider_blob_blobly(blobly_url, blobly_access_keys, blobly_secret_keys)
+	blobly_url := os.getenv(env_blobly_url)
+	blobly_keys := os.getenv(env_blobly_keys).split('=')
+	blobly_access_key := blobly_keys[0]
+	blobly_secret_key := blobly_keys[1]
+
+	bp := peony.new_provider_blob_blobly(blobly_url, blobly_access_key, blobly_secret_key)
 
 	mut app := peony.new_peony_app(bp)
 	app.run()
