@@ -15,7 +15,7 @@ fn main() {
 	blobly_access_key := blobly_keys[0]
 	blobly_secret_key := blobly_keys[1]
 
-	bp := peony.new_provider_blob_blobly(blobly_url, blobly_access_key, blobly_secret_key)
+	bp := peony.new_provider_blob_blobly(blobly_url, blobly_access_key, blobly_secret_key)!
 
 	// You can register your custom veb middleware on app
 	mut app := peony.new_peony_app(bp)
