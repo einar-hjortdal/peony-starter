@@ -28,12 +28,12 @@ sudo docker run \
   registry.redict.io/redict
 ```
 
-- a blobly service
-
-Note: blobly needs some environment variables set before starting
+- a blobly server
 
 ```
 git clone https://github.com/einar-hjortdal/blobly.git && \
 cd blobly && \
+v install && \
 v run .
 ```
+Note: blobly needs some environment variables set before starting
