@@ -6,6 +6,7 @@ import strconv
 import einar_hjortdal.dotenv
 import einar_hjortdal.peony
 
+// Settings are taken from the environment, but you could also hardcode them.
 const env_debug = 'DEBUG'
 const env_default_user_email = 'EMAIL'
 const env_default_user_password = 'PASSWORD'
@@ -65,7 +66,7 @@ fn main() {
 	}
 
 	// You can register your custom veb middleware on app
-	mut app := peony.new_peony_app(config, providers)
+	mut app := peony.new_peony_app(config, providers)!
 
-	app.run()
+	app.run()!
 }
