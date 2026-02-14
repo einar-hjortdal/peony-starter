@@ -6,7 +6,7 @@ To run the starter as-is you need:
 
 - a firebird server
 ```
-sudo docker run \
+docker run \
   --rm \
   --detach \
   --name=firebird-server \
@@ -22,7 +22,7 @@ sudo docker run \
 
 - a redict server
 ```
-sudo docker run \
+docker run \
   --rm \
   --detach \
   --name=redict \

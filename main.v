@@ -1,8 +1,10 @@
 module main
 
+import net.http
 import os
-import time
 import strconv
+import time
+import veb
 import einar_hjortdal.dotenv
 import einar_hjortdal.peony
 
@@ -37,6 +39,8 @@ fn parse_bool(s string) bool {
 fn main() {
 	dotenv.load()
 
+	admin_frontend_url := os.getenv(env_admin_frontend_url)
+
 	blobly_url := os.getenv(env_blobly_url)
 	blobly_keys := os.getenv(env_blobly_keys).split('=')
 	blobly_access_key := blobly_keys[0]
@@ -57,16 +61,20 @@ fn main() {
 		session_refresh_expire: parse_bool(os.getenv(env_session_refresh_expire))
 		session_name:           os.getenv(env_session_name)
 		session_admin_prefix:   os.getenv(env_session_admin_prefix)
-		admin_frontend_url:     os.getenv(env_admin_frontend_url)
-		store_frontend_url:     os.getenv(env_store_frotnend_url)
 	}
 
 	providers := &peony.Providers{
 		blob: peony.new_provider_blob_blobly(blobly_url, blobly_access_key, blobly_secret_key)!
 	}
 
-	// You can register your custom veb middleware on app
 	mut app := peony.new_peony_app(config, providers)!
+
+	// cors middleware for admin frontend
+	app.use(veb.cors[peony.Context](veb.CorsOptions{
+		origins:           [admin_frontend_url]
+		allow_credentials: true
+		allowed_methods:   [http.Method.get, http.Method.post, http.Method.delete]
+	}))
 
 	app.run()!
 }
